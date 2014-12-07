@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head> <title> ..:: Pizzaria - D'Milla ::.. </title>
+	<link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
+	</h:head>
+	<h:body>
+		<div align="center">
+			<p:layout fullPage="true">
+				<p:layoutUnit position="north" size="100">
+					<h:outputLabel value="Pizzaria  -  D'Milla"
+					width="200px" height="100px" style="vertical-align: left; font-size: 50px;"
+					/>
+				</p:layoutUnit>
+			
+				<p:layoutUnit position="west" size="220">
+					<ui:insert name="menu">
+						<h:form>
+							<p:menu id="principal" style="width: 200px">
+								<p:submenu label="Produtos">
+									<p:menuitem value="Cadastro Produto" icon="ui-icon-contact" action="cadastro-produto" ajax="false"/>
+									<p:menuitem value="Lista de Produto" icon="ui-icon-note" action="listar-produto" ajax="false"/>
+								</p:submenu>
+								<p:submenu label="Clientes">
+									<p:menuitem value="Cadastro Cliente" icon="ui-icon-person" action="cadastro-cliente" ajax="false"/>
+									<p:menuitem value="Lista de Cliente" icon="ui-icon-note" action="listar-cliente" ajax="false"/>
+								</p:submenu>
+								<p:submenu label="Pedidos">
+									<p:menuitem value="Pedidos" icon="ui-icon-document" action="pedidos" ajax="false"/>
+								</p:submenu>
+							</p:menu>
+						</h:form>
+					</ui:insert>
+				</p:layoutUnit>
+				<p:layoutUnit position="center">
+					<f:view locale="pt_BR" contentType="text/html; charset=UTF-8" encoding="UTF-8"> 
+						<ui:insert name="centro">
+						</ui:insert>
+					</f:view>
+				</p:layoutUnit>
+			</p:layout>
+		</div>
+	</h:body>
+	
+</html>

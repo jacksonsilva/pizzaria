@@ -1,0 +1,257 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:decorate template="padrao/default.xhtml">
+	<ui:define name="centro">
+		<div id="divPedidos" align="left">
+			
+			<h:form id="formItemPedido">	
+				<p:growl id="msgs" showDetail="true"/>
+					
+					<p:panelGrid id="pnlPedidoCliente" style="width: 800px">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="3" style="font-size:16px; bold">Clientes</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="font-size:12px; bold"> Telefone </p:column>
+								<p:column colspan="1" style="font-size:12px; bold"> Cliente </p:column>
+								<p:column colspan="2" style="width: 430px; font-size:12px; bold"> Endereço</p:column>
+							</p:row>
+						</f:facet>
+
+						<p:row>
+							<p:column> <p:inputText id="telefone" value="#{pedidoMB.cliente.telefone}" style="font-size:12px;">
+											<p:ajax event="blur" update="cliente_nome, cliente_endereco, cliente_numero, cliente_bairro" listener="#{pedidoMB.procuraCliente}"/>
+									   </p:inputText>
+							</p:column>
+							<p:column> <p:inputText id="cliente_nome" value="#{pedidoMB.cliente.nome}" style="font-size:12px;"/> </p:column>
+							<p:column>
+									   <h:outputLabel id="cliente_endereco" value="#{pedidoMB.cliente.endereco}" style="font-size:12px;"/>
+									   <h:outputLabel id="cliente_numero" value="#{pedidoMB.cliente.numero}" style="font-size:12px;"/>
+									   <h:outputLabel id="cliente_bairro" value="#{pedidoMB.cliente.bairro}" style="font-size:12px;"/>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					
+					<p:spacer height="5px;"/>
+					
+					<!-- <p:panelGrid id="pnlBotoesMontado" style="width: 800px;">
+						<p:row>				
+							
+							<p:column>
+								<p:commandButton value="Montar Pizza" type="button" onclick="PF('dlgMontarPizza').show();" style="font-size: 12px;"/>
+							</p:column>
+							
+						</p:row>
+					</p:panelGrid> -->
+					
+					<p:spacer height="5px;"/>
+					
+					<p:panelGrid id="pnlPedidoProduto" style="width: 800px">
+					
+						<f:facet name="header">
+						  <p:row>
+							<p:column colspan="5" style="font-size:16px; bold"> Produtos </p:column>
+						  </p:row>
+						  <p:row>
+					    	<p:column styleClass="ui-widget-header" style="width: 0%; font-size:12px; bold"> Cod Produto </p:column>
+					    	<p:column styleClass="ui-widget-header" style="width: 0%; font-size:12px; bold"> Qtde </p:column>
+			   	   		    <p:column styleClass="ui-widget-header" style="width: 90%; font-size:12px; bold">Descrição Produto</p:column>
+							<p:column styleClass="ui-widget-header" style="width: 10%; font-size:12px; bold">Vlr Unit</p:column>
+							<p:column styleClass="ui-widget-header" style="width: 0%; font-size:12px; bold">  </p:column>
+					  	  </p:row>
+					   </f:facet>
+					   <p:row>
+					      <p:column>
+					      	 <h:inputText id="produto_id" value="#{pedidoMB.item.codProduto}" size="2" maxlength="5" style="font-size:12px;">
+					      		<p:ajax event="blur" update="produto_decricao, produto_preco" listener="#{pedidoMB.procuraProduto}"/>
+							  </h:inputText>
+					      </p:column>
+					      <p:column> <h:inputText id="produto_qtd" value="#{pedidoMB.item.qtdeProduto}" size="1" maxlength="3" style="font-size:12px;"/> </p:column>
+					      <p:column> <h:outputLabel id="produto_decricao" value="#{pedidoMB.item.descricaoProduto}" style="font-size:12px;"/> </p:column>
+					      <p:column> 
+					      	<h:outputText id="produto_preco" value="#{pedidoMB.item.valorUnitProduto}" style="font-size:12px;">
+					      		<f:convertNumber pattern="###,##0.00"/>
+					      	</h:outputText>
+					      </p:column>
+					      <p:column>
+					   	 	<p:commandLink id="btn_addProduto" actionListener="#{pedidoMB.addItemPedido}" ajax="true" update=":formItemPedido:msgs, :formItemPedido:tabelaItensPedido, :formItemPedido:pnlPedidoProduto">
+							   <f:attribute name="parametro_item" value="#{pedidoMB.item}" />
+							   <h:outputLabel style="cursor:hand; font-size:12px; bold">Adicionar</h:outputLabel>
+							</p:commandLink>
+						</p:column>
+					   </p:row>
+					</p:panelGrid>
+					
+					<p:spacer height="5px;"/>
+					
+					<p:remoteCommand name="redit" update=":formItemPedido:tabelaItensPedido" />
+
+					<p:dataTable id="tabelaItensPedido" var="item" value="#{pedidoMB.listaItens}" style="margin-bottom:20px; width: 800px; font-size:12px;"
+					   widgetVar="tabelaItem" emptyMessage="Nenhum Item foi encontrado."
+					   editable="true" paginator="true" rows="20"
+					   paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       >
+					  
+					  <f:facet name="header">
+					    <h:outputText value="Total a Pagar: R$: " style="font-size:16px; bold;"/> 
+					  	<h:outputText value="#{pedidoMB.valorTotalPedido}" style="font-size:16px; bold;">
+                			<f:convertNumber pattern="###,##0.00"/>
+               			</h:outputText>
+					  </f:facet>
+					  
+					  <p:ajax oncomplete="redit()" event="rowEdit" listener="#{pedidoMB.onRowEdit}" update=":formItemPedido:msgs, :formItemPedido:tabelaItensPedido, :formItemPedido:pnlPedidoProduto"   />  
+                      <p:ajax event="rowEditCancel" listener="#{pedidoMB.onRowCancel}" update=":formItemPedido:msgs, :formItemPedido:tabelaItensPedido, :formItemPedido:pnlPedidoProduto" /> 
+                                            
+                      <p:column style="width:30px;">
+					    <p:rowEditor/>
+					  </p:column>
+					  
+					  <p:column style="width:30px;">
+						  <p:commandLink id="excluir_item" action="#{pedidoMB.excluirItem(item.idItem)}" ajax="true" update=":formItemPedido:msgs, :formItemPedido:tabelaItensPedido, :formItemPedido:pnlPedidoProduto">
+					   	    <h:outputLabel style="cursor:hand; font-size:12px;">excluir</h:outputLabel>
+					      </p:commandLink>
+					  </p:column>
+					 
+					  <p:column style="width:10%;"> 
+					  	<p:cellEditor>
+							<f:facet name="output"> <h:outputLabel value="#{item.codProduto}" style="margin-left: 10px; font-size:12px;"/> </f:facet>
+							<f:facet name="input"> <h:inputText value="#{item.codProduto}" style="width: 100%"/> </f:facet>
+						</p:cellEditor>
+					   </p:column>
+					   
+					  <p:column style="width:10%;">
+					  <p:cellEditor>
+							<f:facet name="output"> <h:outputLabel value="#{item.qtdeProduto}" style="margin-left: 10px; font-size:12px;"/> </f:facet>
+							<f:facet name="input"> <h:inputText value="#{item.qtdeProduto}" style="width: 100%"/> </f:facet>
+						</p:cellEditor>
+					  </p:column>
+					  
+					  <p:column style="width:90%;"> <h:outputLabel value="#{item.descricaoProduto}" style="font-size:12px;"/> </p:column>
+			 	   	  
+			 	   	  <p:column style="width:15%; text-align: right;">
+			 	   	  	<h:outputText value="#{item.valorUnitProduto}" style="font-size:12px;">
+			 	   	  		<f:convertNumber pattern="###,##0.00"/>
+			 	   	  	</h:outputText>
+			 	   	  </p:column>
+			 	   	  
+			 	   	  <p:column style="width:15%; text-align: right;">
+			 	   	  	<h:outputText value="#{item.valorSubProduto}" style="font-size:12px;">
+			 	   	  		<f:convertNumber pattern="###,##0.00"/>
+			 	   	  	</h:outputText>
+			 	   	  </p:column>
+			 	   	  
+					</p:dataTable>
+					
+					<p:panelGrid id="pnlBotoes" style="width: 800px;">
+						<p:row>				
+							
+							<p:column>
+								<p:commandButton id="addPedido" value="Fechar Pedido" action="#{pedidoMB.addPedido}" ajax="false" style="font-size:12px;"/>
+							</p:column>
+							
+						</p:row>
+					</p:panelGrid>
+
+					<p:remoteCommand name="updated_dlg" update=":formItemPedido:tabelaItensPedidoMontado" />
+
+					<p:dialog id="montarPedido" header="Montar Pizza" widgetVar="dlgMontarPizza" modal="false" height="350"  width="550" resizable="false">					
+							<p:panelGrid id="pnlMontarPizza" style="width: 500px">
+								<f:facet name="header">
+									  <p:row>
+										<p:column colspan="5" style="font-size:16px; bold"> Produtos </p:column>
+									  </p:row>
+									  <p:row>
+								    	<p:column styleClass="ui-widget-header" style="width: 0%; font-size:12px; bold"> Cod Produto </p:column>
+						   	   		    <p:column styleClass="ui-widget-header" style="width: 90%; font-size:12px; bold">Descrição Produto</p:column>
+										<p:column styleClass="ui-widget-header" style="width: 10%; font-size:12px; bold">Vlr Unit</p:column>
+										<p:column styleClass="ui-widget-header" style="width: 0%; font-size:12px; bold">  </p:column>
+								  	  </p:row>
+								   </f:facet>
+								   
+								   <p:row>
+								      <p:column>
+								      	 <h:inputText id="produto_id_montado" value="#{pedidoMB.itemMontado.codProduto}" size="1" maxlength="5" style="font-size:12px;">
+								      		<p:ajax event="blur" update="produto_decricao_montado, produto_preco_montado" listener="#{pedidoMB.procuraProdutoMontado}" />
+										  </h:inputText>
+								      </p:column>
+								      <p:column> <h:outputLabel id="produto_decricao_montado" value="#{pedidoMB.itemMontado.descricaoProduto}" style="font-size:12px;"/> </p:column>
+								      <p:column> 
+								      	<h:outputText id="produto_preco_montado" value="#{pedidoMB.itemMontado.valorUnitProduto}" style="font-size:12px;">
+								      		<f:convertNumber pattern="###,##0.00"/>
+								      	</h:outputText>
+								      </p:column>
+								      <p:column>
+								   	 	<p:commandLink id="btn_addProduto_montado" actionListener="#{pedidoMB.addItemPedidoMontado}" ajax="true" update=":formItemPedido:msgs, :formItemPedido:tabelaItensPedidoMontado">
+										   <f:attribute name="parametro_item_montado" value="#{pedidoMB.itemMontado}" />
+										   <h:outputLabel style="cursor:hand; font-size:12px; bold">Adicionar</h:outputLabel>
+										</p:commandLink>
+									</p:column>
+								   </p:row>
+								   
+							</p:panelGrid>
+							
+							<p:spacer  height="20"/>
+							
+							<p:dataTable id="tabelaItensPedidoMontado" var="item" value="#{pedidoMB.listaItensMontado}" style="margin-bottom:20px; width: 500px; font-size:12px;"
+								   widgetVar="tabelaItemMontado" emptyMessage="Nenhum Item foi encontrado."
+								   editable="true" paginator="true" rows="4"
+								   paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			                       >
+								  
+								  <f:facet name="header">
+								    <h:outputText value="Total a Pagar: R$: " style="font-size:16px; bold;"/> 
+								  	<h:outputText value="#{pedidoMB.valorItemPedidoMontado}" style="font-size:16px; bold;">
+			                			<f:convertNumber pattern="###,##0.00"/>
+			               			</h:outputText>
+								  </f:facet>
+								  
+								  <p:ajax oncomplete="updated_dlg()" event="rowEdit" listener="#{pedidoMB.onRowEditM}" update=":formItemPedido:msgs, :formItemPedido:pnlMontarPizza, :formItemPedido:tabelaItensPedidoMontado"/> 
+			                      <p:ajax event="rowEditCancel" listener="#{pedidoMB.onRowCancelM}" update=":formItemPedido:tabelaItensPedidoMontado, :formItemPedido:pnlMontarPizza" /> 
+			                                            
+			                      <p:column style="width:30px;">
+								    <p:rowEditor/>
+								  </p:column>
+								  
+								  <p:column style="width:30px;">
+									  <p:commandLink id="excluir_item" action="#{pedidoMB.excluirItemM(item.idItem)}" ajax="true" update=":formItemPedido:msgs, :formItemPedido:pnlMontarPizza, :formItemPedido:tabelaItensPedidoMontado">
+								   	    <h:outputLabel style="cursor:hand; font-size:12px;">excluir</h:outputLabel>
+								      </p:commandLink>
+								  </p:column>
+								 
+								  <p:column style="width:10%;"> 
+								  	<p:cellEditor>
+										<f:facet name="output"> <h:outputLabel value="#{item.codProduto}" style="margin-left: 10px; font-size:12px;"/> </f:facet>
+										<f:facet name="input"> <h:inputText value="#{item.codProduto}" style="width: 100%"/> </f:facet>
+									</p:cellEditor>
+								   </p:column>
+								   
+								  <p:column style="width:90%;"> <h:outputLabel value="#{item.descricaoProduto}" style="font-size:12px;"/> </p:column>
+						 	   	  
+						 	   	  <p:column style="width:15%; text-align: right;">
+						 	   	  	<h:outputText value="#{item.valorUnitProduto}" style="font-size:12px;">
+						 	   	  		<f:convertNumber pattern="###,##0.00"/>
+						 	   	  	</h:outputText>
+						 	   	  </p:column>
+							</p:dataTable>
+							
+						<p:spacer height="10"/>
+						
+						<p:commandButton id="btnOkMontaPedido" value="Ok" style="width:60px; height:30px;font-size:12px" icon="ui-icon-circle-check"
+							action="#{pedidoMB.confirmarPedidoMontado}" update=":formItemPedido:msgs, :formItemPedido:tabelaItensPedido, :formItemPedido:pnlPedidoProduto, :formItemPedido:montarPedido" />
+						
+						<p:spacer width="10"/>
+						
+						<p:commandButton id="btnCancelMontaPedido" value="Cancelar" style="width:90px; height:30px;font-size:12px" icon="ui-icon-closethick" update="@form"
+							action="#{pedidoMB.cancelarPedidoMontado}"/>
+						
+					</p:dialog>
+									
+			  </h:form>					
+		</div>
+	</ui:define>
+</ui:decorate>
+</html>

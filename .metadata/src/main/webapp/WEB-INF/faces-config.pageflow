@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14135848586190" configfile="/pizzaria/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="default.xhtml" x="122" y="754" id="pf14135848818401" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14135848818412 pf14136478625070 pf14142582936820 pf14149282392910 pf14149282392911" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="cadastro-produto.xhtml" x="338" y="178" id="pf14135848818413" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14135848818412" path="/cadastro-produto.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="cadastro-produto" x="122" y="1138" id="pf14135848818414" referenceLink="//@navigationRule.1/@fromViewId|" path="/cadastro-produto.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="cadastro-produto-success.xhtml" x="122" y="1522" id="pf14135848818417" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" path="/cadastro-produto-success.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="listar-produto.xhtml" x="338" y="562" id="pf14136478625072" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14136478625070" path="/listar-produto.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="cadastro-cliente.xhtml" x="338" y="946" id="pf14142582936821" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14142582936820" path="/cadastro-cliente.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="teste.xhtml" x="122" y="1906" id="pf14143746547132" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" path="/teste.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="listar-cliente.xhtml" x="338" y="1330" id="pf14149282392912" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" inlinks="pf14149282392910" path="/listar-cliente.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pedidos.xhtml" id="pf14149282392913" referenceLink="//@navigationRule.0/@navigationCase.4/@toViewId|" inlinks="pf14149282392911" path="/pedidos.xhtml"/>
+  <links id="pf14135848818412" target="pf14135848818413" source="pf14135848818401" outcome="cadastro-produto"/>
+  <links id="pf14136478625070" target="pf14136478625072" source="pf14135848818401" outcome="listar-produto"/>
+  <links id="pf14142582936820" target="pf14142582936821" source="pf14135848818401" outcome="cadastro-cliente"/>
+  <links id="pf14149282392910" target="pf14149282392912" source="pf14135848818401" outcome="listar-cliente"/>
+  <links id="pf14149282392911" target="pf14149282392913" source="pf14135848818401" outcome="pedidos"/>
+</pageflow:Pageflow>

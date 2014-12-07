@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pe="http://primefaces.org/ui/extensions"
+	  xmlns:ui="http://java.sun.com/jsf/facelets">
+	  
+	    <ui:decorate template="padrao/default.xhtml">
+	           <ui:define name="centro">
+
+	            <h:form id="Cadastro_Produto">
+
+	            	<div id="idCadastroProdutoForm" align="left">
+	            		<div id="divMessage" style="width: 45%">
+		            		<p:message id="mensagens" for="mensagens"> 
+								    <p:effect type="fade" event="load" delay="1500" />
+							</p:message>
+							<p:message id="mensagens_erro" for="mensagens_erro">
+								<p:effect type="fade" event="load" delay="2500" />
+							</p:message>
+							
+						</div>
+						<p:panelGrid id="painelCadastroProdutos" columns="3" columnClasses="column1, column2, column3" >
+							<f:facet name="header">
+								<h:outputLabel id="titlePanel" value="Cadastro de Produtos "/>
+							</f:facet>
+							
+							<h:outputLabel for="codProduto" value="Código do Produto: "/>
+							<p:inputText id="codProduto" value="#{produtoMB.codProduto}" style="width: 60px" required="true">
+								<f:converter converterId="javax.faces.Integer"/>
+								<p:ajax event="blur" update="idMsg"/>
+							</p:inputText>
+							<p:message id="idMsg" for="codProduto" display="icon"/>
+													
+							<h:outputLabel for="Descricao" value="Descricao: "/>
+							<p:inputText id="Descricao" value="#{produtoMB.descricao}" required="true">
+							    <f:validateLength minimum="2"/>
+							    <p:ajax event="blur" update="descricaoMsg"/>
+						    </p:inputText>
+							<p:message id="descricaoMsg" for="Descricao" display="icon"/>
+							
+							<h:outputLabel for="Preco" value="Preço: "/>
+							<p:inputText id="Preco" value="#{produtoMB.preco}" label="Preco" required="true">
+								<!-- <f:convertNumber pattern="#,###0.00"  minFractionDigits="2" locale="pt_BR"/> -->
+								
+									<p:ajax event="blur" update="precoMsg"/>
+							</p:inputText>
+							<p:message id="precoMsg" for="Preco" display="icon"/>						
+							
+							<f:facet name="footer">
+						    	<p:commandButton id="addProduto" value="Adicionar" action="#{produtoMB.addProduto}" icon="ui-icon-check" update="mensagens, mensagens_erro"/>
+						    	<p:commandButton id="reset" value="Reset" action="#{produtoMB.reset}" update="mensagens, painelCadastroProdutos"/>
+						    </f:facet>
+						    
+						</p:panelGrid>
+					</div>
+				</h:form>
+	        </ui:define>
+	   </ui:decorate>
+	   
+</html>
+
+						
+						

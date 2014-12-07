@@ -1,0 +1,98 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pe="http://primefaces.org/ui/extensions"
+	  xmlns:ui="http://java.sun.com/jsf/facelets">
+	  
+	    <ui:decorate template="padrao/default.xhtml">
+	           <ui:define name="centro">
+	            <h:form id="Cadastro_Cliente">
+
+	            	<div id="idCadastroClienteForm" align="left">
+	            		<div id="divMessage" style="width: 45%">
+		            		<p:message id="mensagens" for="mensagens"> 
+								    <p:effect type="fade" event="load" delay="1500" />
+							</p:message>
+							<p:message id="mensagens_erro" for="mensagens_erro">
+								<p:effect type="fade" event="load" delay="2500" />
+							</p:message>
+							
+						</div>
+						<p:panelGrid id="painelCadastroClientes" columns="4">
+							<f:facet name="header">
+								<h:outputLabel id="titlePanel" value="Cadastro de Clientes "/>
+							</f:facet>
+							
+							<h:outputLabel for="idCliente" value="Código do Cliente: "/>
+							<p:inputText id="idCliente" value="#{clienteMB.id}" style="width: 60px" disabled="true">
+								<f:converter converterId="javax.faces.Integer"/>
+								<p:ajax event="blur" update="idMsg"/>
+								<p:message id="idMsg" for="idCliente" display="icon"/>
+							</p:inputText>
+							
+													
+							<h:outputLabel for="Nome" value="Nome: "/>
+							<p:inputText id="Nome" value="#{clienteMB.nome}" style="width:450px" required="true">
+							    <p:ajax event="blur" update="nomeMsg"/>
+							    <p:message id="nomeMsg" for="Nome" display="icon"/>
+						    </p:inputText>
+							
+							
+							<h:outputLabel for="Sobrenome" value="Sobrenome "/>
+							<p:inputText id="Sobrenome" value="#{clienteMB.sobrenome}" style="width:450px">
+								<p:ajax event="blur" update="sobrenomeMsg"/>
+								<p:message id="sobrenomeMsg" for="Sobrenome" display="icon"/>
+							</p:inputText>
+													
+							
+							<h:outputLabel for="Telefone" value="Telefone "/>
+							<p:inputText id="Telefone" value="#{clienteMB.telefone}" required="true">
+								<p:ajax event="blur" update="telefoneMsg"/>
+								<p:message id="telefoneMsg" for="Telefone" display="icon"/>
+							</p:inputText>
+							
+							
+							<h:outputLabel for="Celular" value="Celular: "/>
+							<p:inputText id="Celular" value="#{clienteMB.celular}">
+								<p:ajax event="blur" update="celularMsg"/>
+								<p:message id="celularMsg" for="Celular" display="icon"/>
+							</p:inputText>
+							
+							
+							<h:outputLabel for="Endereco" value="Endereço: "/>
+							<p:inputText id="Endereco" value="#{clienteMB.endereco}" style="width:450px" required="true">
+								<p:ajax event="blur" update="enderecoMsg"/>
+								<p:message id="enderecoMsg" for="Celular" display="icon"/>
+							</p:inputText>
+							
+							
+							<h:outputLabel for="Numero" value="Número: "/>
+							<p:inputText id="Numero" value="#{clienteMB.numero}" required="true">
+								<p:ajax event="blur" update="enderecoMsg"/>
+								<p:message id="numeroMsg" for="Celular" display="icon"/>
+							</p:inputText>
+							
+							
+							<h:outputLabel for="Bairro" value="Bairro: "/>
+							<p:inputText id="Bairro" value="#{clienteMB.bairro}" style="width:450px">
+								<p:ajax event="blur" update="bairroMsg"/>
+								<p:message id="bairroMsg" for="Bairro" display="icon"/>
+							</p:inputText>
+							
+							
+							<f:facet name="footer">
+						    	<p:commandButton id="addCliente" value="Adicionar" action="#{clienteMB.addCliente}" icon="ui-icon-check" update="mensagens, mensagens_erro"/>
+						    	<p:commandButton id="reset" value="Reset" action="#{clienteMB.reset}" update="mensagens, painelCadastroClientes"/>
+						    </f:facet>
+						    
+						</p:panelGrid>
+					</div>
+				</h:form>
+	        </ui:define>
+	   </ui:decorate>
+	   
+</html>
+
+						
+						

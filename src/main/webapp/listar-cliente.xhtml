@@ -1,0 +1,89 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:decorate template="padrao/default.xhtml">
+        <ui:define name="centro">
+        <div id="divListaClientes" align="left">
+
+			<h:form id="formListaClientes">
+            	<p:growl id="msgs" showDetail="true"/>
+            	
+				<p:dataTable id="listaClientes" var="cliente" value="#{clienteMB.clienteList}" style="margin-bottom:20px;"
+					widgetVar="tabelaCliente" emptyMessage="Nenhum cliente foi encontrado."
+					selection="#{clienteMB.clientesSelecionados}" rowKey="#{cliente.id}" selectionMode="single"
+					filteredValue="#{clienteMB.filtroClientes}" editable="true">
+					
+					<p:ajax event="rowEdit" listener="#{clienteMB.onRowEdit}" update=":formListaClientes:msgs" />
+					<p:ajax event="rowEditCancel" listener="#{clienteMB.onRowCancel}" update=":formListaClientes:msgs" />
+					
+					<f:facet name="header">
+					      Lista de Clientes
+					</f:facet>
+					
+					<p:column style="width:10px;">
+						<p:rowEditor/>
+					</p:column>
+					
+					<p:column style="width:30px;">
+						<p:commandLink id="excluir_cliente" actionListener="#{clienteMB.excluirCliente(cliente.id)}" ajax="true" update=":formListaClientes:msgs, :formListaClientes:listaClientes">
+							<h:outputLabel style="cursor:hand">excluir</h:outputLabel>
+						</p:commandLink>
+					</p:column>
+					
+					<p:column id="nomeColumn" filterBy="#{cliente.nome}" headerText="Nome Cliente"  filterMatchMode="contains" style="width: 100px;" filterStyle="width: 100px;">
+						<p:cellEditor>
+							<f:facet name="output"> <h:outputText value="#{cliente.nome}" style="margin-left: 10px;"/> </f:facet>
+							<f:facet name="input"> <h:inputText value="#{cliente.nome}" style="width: 100%"/> </f:facet>
+						</p:cellEditor>
+					</p:column>	
+					
+					<p:column id="sobrenomeColumn" filterBy="#{cliente.sobrenome}" headerText="Sobrenome" filterMatchMode="contains" style="width: 120px;" filterStyle="width: 120px;">
+						<p:cellEditor>
+							<f:facet name="output"> <h:outputText value="#{cliente.sobrenome}" style="margin-left: 10px;"/> </f:facet>
+							<f:facet name="input"> <h:inputText value="#{cliente.sobrenome}" style="width: 100%"/> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column id="telefoneColumn" filterBy="#{cliente.telefone}" headerText="Telefone" filterMatchMode="contains" style="width: 100px;" filterStyle="width: 100px;">
+						<p:cellEditor>
+							<f:facet name="output"> <h:outputText value="#{cliente.telefone}" style="margin-left: 10px;"/> </f:facet>
+							<f:facet name="input"> <h:inputText value="#{cliente.telefone}" style="width: 100%"/> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column id="celularColumn" filterBy="#{cliente.celular}" headerText="Celular" filterMatchMode="contains" style="width: 100px;" filterStyle="width: 100px;">
+						<p:cellEditor>
+							<f:facet name="output"> <h:outputText value="#{cliente.celular}" style="margin-left: 10px;"/> </f:facet>
+							<f:facet name="input"> <h:inputText value="#{cliente.celular}" style="width: 100%"/> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column id="enderecoColumn" filterBy="#{cliente.endereco}" headerText="Endereço" filterMatchMode="contains" style="width: 120px;" filterStyle="width: 120px;">
+						<p:cellEditor>
+							<f:facet name="output"> <h:outputText value="#{cliente.endereco}" style="margin-left: 10px;"/> </f:facet>
+							<f:facet name="input"> <h:inputText value="#{cliente.endereco}" style="width: 100%"/> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column id="numeroColumn" filterBy="#{cliente.numero}" headerText="Número" filterMatchMode="contains" style="width: 50px;" filterStyle="width: 60px;">
+						<p:cellEditor>
+							<f:facet name="output"> <h:outputText value="#{cliente.numero}" style="margin-left: 10px;"/> </f:facet>
+							<f:facet name="input"> <h:inputText value="#{cliente.numero}" style="width: 100%"/> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column id="bairroColumn" filterBy="#{cliente.bairro}" headerText="Bairro" filterMatchMode="contains" style="width: 120px;" filterStyle="width: 120px;">
+						<p:cellEditor>
+							<f:facet name="output"> <h:outputText value="#{cliente.bairro}" style="margin-left: 10px;"/> </f:facet>
+							<f:facet name="input"> <h:inputText value="#{cliente.bairro}" style="width: 100%"/> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+				</p:dataTable>
+			</h:form>
+		</div>
+        </ui:define>
+    </ui:decorate>
+</html>
